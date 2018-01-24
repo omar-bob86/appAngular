@@ -24,15 +24,27 @@ function getArtist(req, res) {
 	});
 }
 
-function getArtists(req, res){
+function getArtist(req, res){
+	if(req.params.page){
+		var page = req.params.page;
+	}else{
+		var page = 1;
+	}
 	var page = req.params.page;
 	var itemsPerPage = 3;
 
 	Artist.find().sort('name').paginate(page, itemsPerPage, function(err, artists, total){
 		if(err){
-			res.status(500).send({message: 'Error en la peticion.'})
+			res.status(500).send({message: 'Error en la peticion.'});
 		}else{
-
+			if(!artists){
+				res.status(404).send({message: 'No hay artistas!!'});
+			}else{
+				return res.status(200).send({
+					total_items: total,
+					artists: artists
+				});
+			}
 		}
 	});
 }
@@ -56,8 +68,8 @@ function saveArtist(req, res){
 			}
 		}
 	});
-
 }
+
 
 module.exports = {
 	getArtist,
