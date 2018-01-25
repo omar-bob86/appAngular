@@ -70,9 +70,107 @@ function saveArtist(req, res){
 	});
 }
 
+function updateArtist(req, res){
+	var artistId = req.params.id;
+	var update = req.body;
+
+	Artist.findByIdAndUpdate(artistId, update, (err, artistUpdated) =>{
+		if(err){
+			res.status(500).send({message: 'Error al guardar el aetista'});
+		}else{
+			if(!artistUpdated){
+				res.status(404).send({message: 'El artista no ha sido actualizado'});
+			}else{
+				res.status(200).send({artist: artistUpdated});
+			}
+		}
+	})
+}
+
+function deleteArtist(req, res){
+	var artistId = req.params.id;
+
+	Artist.findByIdAndRemove(artistId, (err, artistRemoved) => {
+		if(err){
+			res.status(500).send({message: 'Error al eliminar al artista'});
+		}else{
+			if(!artistRemoved){
+				res.status(404).send({message: 'El artista no ha sido eliminado'});
+			}else{
+				Album.find({artist: artistRemoved._id}).remove((err, albumRemoved) => {
+					if(err){
+						res.status(500).send({message: 'Error al eliminar el album'});
+					}else{
+						if(!albumRemoved){
+							res.status(404).send({message: 'El album no ha sido eliminado'});
+						}else{
+							Song.find({album: albumRemoved._id}).remove((err, songRemoved) => {
+								if(err){
+									res.status(500).send({message: 'Error al eliminar la canción'});
+								}else{
+									if(!songRemoved){
+										res.status(404).send({message: 'La canción no ha sido eliminada'});
+									}else{
+										res.status(200).send({artistRemoved});
+									}
+								}
+							});
+						}
+					}
+				});
+			}
+		}
+	});
+}
+
+function updloadImage(req, res){
+	var artistId = req.params.id;
+	var file_name = 'No subido...';
+
+	if(req.files){
+		var file_path = req.files.image.path;
+		var file_split = file_path.split('\\');
+		var file_name = file_split[2];
+
+		var ext_split = file_name.split('\.');
+		var file_ext = ext_split[1];
+
+		if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif'){
+
+			Artist.findByIdAndUpdate(artistId, {image: file_name}, (err, artistUpdated) => {
+				if(!artistUpdated){
+					res.status(404).send({message: 'No se ha podido actualizar el artista'});
+				}else{
+					res.status(200).send({artist: artistUpdated});
+				}
+			});
+
+		}else{
+			res.status(200).send({message: 'Extencion del archivo no valida'})
+		}
+	}else{
+		res.status(200).send({message: 'No ha subido ninguna magen'});
+	}
+}
+
+function getImageFile(req, res){
+	var imageFile = req.params.imageFile;
+	var path_file = './uploads/artists/'+imageFile;
+	fs.exists(path_file, function(exists){
+		if(exists){
+			res.sendFile(path.resolve(path_file));
+		}else{
+			res.status(200).send({message: 'no existe la imagen...'});
+		}
+	});
+}
 
 module.exports = {
 	getArtist,
 	saveArtist,
-	getArtist
+	getArtist,
+	updateArtist,
+	deleteArtist,
+	updloadImage,
+	getImageFile
 }
