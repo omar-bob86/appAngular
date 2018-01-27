@@ -115,8 +115,8 @@ function deleteAlbum(req, res){
 	});
 }
 
-function updloadImage(req, res){
-	var albumtId = req.params.id;
+function uploadImage(req, res){
+	var albumId = req.params.id;
 	var file_name = 'No subido...';
 
 	if(req.files){
@@ -127,10 +127,10 @@ function updloadImage(req, res){
 		var ext_split = file_name.split('\.');
 		var file_ext = ext_split[1];
 
-		if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif'){
+		if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
 
-			Album.findByIdAndUpdate(albumtId, {image: file_name}, (err, albumUpdated) => {
-				if(!albumUpdated){
+			Album.findByIdAndUpdate(albumId, {image: file_name}, (err, albumUpdated) => {
+				if (!albumUpdated) {
 					res.status(404).send({message: 'No se ha podido actualizar el usuario'});
 				}else{
 					res.status(200).send({album: albumUpdated});
@@ -138,21 +138,23 @@ function updloadImage(req, res){
 			});
 
 		}else{
-			res.status(200).send({message: 'Extencion del archivo no valida'})
+			res.status(200).send({message: 'Extensión del archivo no valida'});
 		}
+
 	}else{
-		res.status(200).send({message: 'No ha subido ninguna magen'});
+		res.status(200),send({message: 'No has subido ninguna imagen...'});
 	}
 }
 
 function getImageFile(req, res){
 	var imageFile = req.params.imageFile;
 	var path_file = './uploads/albums/'+imageFile;
+
 	fs.exists(path_file, function(exists){
-		if(exists){
+		if (exists) {
 			res.sendFile(path.resolve(path_file));
 		}else{
-			res.status(200).send({message: 'no existe la imagen...'});
+			res.status(200).send({message: 'No existe la image'});
 		}
 	});
 }
@@ -163,6 +165,6 @@ module.exports = {
 	getAlbums,
 	uploadAlbum,
 	deleteAlbum,
-	updloadImage,
+	uploadImage,
 	getImageFile
 }
