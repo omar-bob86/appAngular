@@ -122,11 +122,11 @@ function uploadFile(req, res){
 
 		if(file_ext == 'mp3' || file_ext == 'ogg') {
 
-			Song.findByIdAndUpdate(songoId, {file: file_name}, (err, songUpdated) => {
+			Song.findByIdAndUpdate(songId, {file: file_name}, (err, songUpdated) => {
 				if (!songUpdated) {
-					res.status(404).send({message: 'No se ha podido actualizar el usuario'});
+					res.status(404).send({message: 'No se ha podido actualizar la canción'});
 				}else{
-					res.status(200).send({album: songUpdated});
+					res.status(200).send({song: songUpdated});
 				}
 			});
 
@@ -135,19 +135,19 @@ function uploadFile(req, res){
 		}
 
 	}else{
-		res.status(200),send({message: 'No has subido ninguna imagen...'});
+		res.status(200),send({message: 'No existe el fichero de audio...'});
 	}
 }
 
-function getImageFile(req, res){
-	var imageFile = req.params.imageFile;
-	var path_file = './uploads/songs/'+imageFile;
+function getSongFile(req, res){
+	var songFile = req.params.songFile;
+	var path_file = './uploads/songs/'+songFile;
 
 	fs.exists(path_file, function(exists){
 		if (exists) {
 			res.sendFile(path.resolve(path_file));
 		}else{
-			res.status(200).send({message: 'No existe la image'});
+			res.status(200).send({message: 'No existe el fichero de audio...'});
 		}
 	});
 }
@@ -158,6 +158,6 @@ module.exports = {
 	getSongs,
 	updateSong,
 	deleteSong,
-	uploadImage,
-	getImageFile
+	uploadFile,
+	getSongFile
 };
