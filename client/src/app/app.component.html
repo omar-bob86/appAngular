@@ -75,7 +75,7 @@
 				<label for="">Contraseña:</label>
 				<input class="form-control" type="password" #password="ngModel" name="password" [(ngModel)]="user_register.password" required />
 				<span *ngIf="!password.valid && password.touched">
-					El E-mail es obligatorio
+					El contraseña es obligatorio
 				</span>
 			</p>
 

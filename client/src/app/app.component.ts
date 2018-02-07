@@ -59,9 +59,7 @@ export class AppComponent implements OnInit{
 			  			}else{
 			  				//Crear elemento en el localstorage para tener el token disponible
 			  				localStorage.setItem('token', token);
-
-			  				console.log(token);
-			  				console.log(identity);
+			  				this.user = new User('','','','','','ROLE_USER','');
 			  			}
 			  		},
 			  		error => {
@@ -117,8 +115,10 @@ export class AppComponent implements OnInit{
 
   			if(errorMessage != null){
   				var body = JSON.parse(error._body);
-  				this.alertRegister = body.message;;
+  				this.alertRegister = body.message;
+
   				console.log(error);
+  			}
   		}
   	);
   }
