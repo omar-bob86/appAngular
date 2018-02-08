@@ -19,6 +19,8 @@ export class UserEditComponent implements OnInit{
 		private _userService: UserService
 	){
 		this.titulo = 'Actualzar mis datos';
+		this.identity = this._userService.getIdentity();
+  		this.token = this._userService.getToken();
 	}
 
 	ngOnInit(){
