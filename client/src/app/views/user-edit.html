@@ -1,4 +1,35 @@
-<div class="col-lg-6" *ngIf="identity">
+<div class="col-lg-6">
 	<h1>{{titulo}}</h1>
-	<!--FORMULARIO-->
+
+	<div *ngIf="alertMessage">
+		<div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4><i class="icon fa fa-ban"></i></h4>{{alertMessage}}
+         </div>
+	</div>
+	<form #userUpdateForm="ngForm" (ngSubmit)="onSubmit()" action="" class="col-md-10">
+		<p>
+			<label for="">Nombre:</label>
+			<input class="form-control" type="text" #name="ngModel" name="name" [(ngModel)]="user.name" required />
+			<span *ngIf="!name.valid && name.touched">
+				El nombre es obligatorio
+			</span>
+		</p>
+		<p>
+			<label for="">Apellidos:</label>
+			<input class="form-control" type="text" #surname="ngModel" name="surname" [(ngModel)]="user.surname" required />
+			<span *ngIf="!surname.valid && surname.touched">
+				El apellido es obligatorio
+			</span>
+		</p>
+		<p>
+			<label for="">Correo electronico:</label>
+			<input class="form-control" type="email" #email="ngModel" name="email" [(ngModel)]="user.email" required />
+			<span *ngIf="!email.valid && email.touched">
+				El E-mail es obligatorio
+			</span>
+		</p>	
+
+		<input type="submit" value="Actualizar mis datos" class="btn btn-primary">
+	</form>
 </div>
