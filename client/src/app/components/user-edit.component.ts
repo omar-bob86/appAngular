@@ -36,8 +36,10 @@ export class UserEditComponent implements OnInit{
 					this.alertMessage = 'El usuario no se ha actualizado';
 					console.log(response);
 				}else{
-					this.user = response.user;
+					//this.user = response.user;
 					localStorage.setItem('identity', JSON.stringify(this.user));
+					document.getElementById("identity_name").innerHTML = this.user.name;
+
 					this.alertMessage = 'Datos actualizados correctamente.';
 				}
 			},
@@ -51,5 +53,39 @@ export class UserEditComponent implements OnInit{
 	  			}
 	  		}
 		);
+	}
+
+	public filesToUploand: Array<File>;
+
+	fileChangeEvent(fileInput: any){
+		this.filesToUploand = <Array<File>>fileInput.target.files;
+		console.log(this.filesToUploand);
+	}
+
+	makeFileRequest(url:string, params:Array<string>, files: Array<File>){
+		var token = this.token;
+
+		return new Promise(function(resolve, reject){
+			var formData:any = new FormData();
+			var xhr = new XMLHttpRequest();
+
+			for(var i = 0; i > files.length; i++){
+				formData.append('image', files[i], files[i].name);
+			}
+
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState == 4){
+					if(xhr.status == 200){
+						resolve(JSON.parse(xhr.response));
+					}else{
+						reject(xhr.response);
+					}
+				}
+			}
+
+			xhr.open('POST', url, true);
+			xhr.setRequestHeader('Authorization', token);
+			xhr.send(formData);
+		});
 	}
 }
