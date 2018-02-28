@@ -29,17 +29,16 @@ export class UserEditComponent implements OnInit{
 		console.log('user-edit.component.ts cargado');
 	}
 
-	onSubmit(){
-		console.log(this.user);
-
+	onSubmit(){ 
 		this._userService.updateUser(this.user).subscribe(
 			response => {
 				if(!response.user){
 					this.alertMessage = 'El usuario no se ha actualizado';
+					console.log(response);
 				}else{
 					this.user = response.user;
 					localStorage.setItem('identity', JSON.stringify(this.user));
-					this.alertMessage = 'Datos actializados correctamente';
+					this.alertMessage = 'Datos actualizados correctamente.';
 				}
 			},
 			error => {

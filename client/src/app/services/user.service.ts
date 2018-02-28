@@ -37,12 +37,10 @@ export class UserService {
 		let params  = JSON.stringify(user_to_update);
 		let headers = new Headers({
 			'Content-Type':'application/json',
-			'Authorization' :  this.getToken()
+			'Authorization' : this.getToken()
 		});
 
-		return this._http.put(this.url+'update-user/'+ user_to_update._id,
-			params, {headers: headers})
-				.map(res => res.json());
+		return this._http.put(this.url+'update-user/'+user_to_update._id, params, {headers: headers}).map(res => res.json());
 	}
 
 	getIdentity(){

@@ -10,5 +10,5 @@ const appRoutes : Routes = [
 	{path: '**', component: UserEditComponent}
 ];
 
-export const appRoutingProvider: any[] = [];
+export const appRoutingProviders: any[] = [];
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
