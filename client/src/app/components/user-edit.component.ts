@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { GLOBAL } from '../services/global';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 
@@ -15,6 +16,7 @@ export class UserEditComponent implements OnInit{
 	public identity;
 	public token;
 	public alertMessage;
+	public url: string;
 
 	constructor(
 		private _userService: UserService
@@ -23,6 +25,7 @@ export class UserEditComponent implements OnInit{
 		this.identity = this._userService.getIdentity();
   		this.token = this._userService.getToken();
   		this.user = this.identity;
+  		this.url = GLOBAL.url;
 	}
 
 	ngOnInit(){
@@ -34,11 +37,25 @@ export class UserEditComponent implements OnInit{
 			response => {
 				if(!response.user){
 					this.alertMessage = 'El usuario no se ha actualizado';
-					console.log(response);
 				}else{
 					//this.user = response.user;
 					localStorage.setItem('identity', JSON.stringify(this.user));
 					document.getElementById("identity_name").innerHTML = this.user.name;
+
+					if(!this.filesToUploand){
+						//Redireccion
+					}else{
+						this.makeFileRequest(this.url+'upload-image-user/'+this.user._id, [], this.filesToUploand).then(
+							(result: any) => {
+
+								this.user.image = result.image;
+								localStorage.setItem('identity', JSON.stringify(this.user));
+
+								let image_path = this.url + 'get-image-user/' + this.user.image;
+								document.getElementById('image-logged').setAttribute('src', image_path);
+							}
+						);
+					}
 
 					this.alertMessage = 'Datos actualizados correctamente.';
 				}
@@ -59,7 +76,6 @@ export class UserEditComponent implements OnInit{
 
 	fileChangeEvent(fileInput: any){
 		this.filesToUploand = <Array<File>>fileInput.target.files;
-		console.log(this.filesToUploand);
 	}
 
 	makeFileRequest(url:string, params:Array<string>, files: Array<File>){
@@ -69,7 +85,7 @@ export class UserEditComponent implements OnInit{
 			var formData:any = new FormData();
 			var xhr = new XMLHttpRequest();
 
-			for(var i = 0; i > files.length; i++){
+			for(var i = 0; i < files.length; i++){
 				formData.append('image', files[i], files[i].name);
 			}
 
