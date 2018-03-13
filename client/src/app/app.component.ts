@@ -10,7 +10,7 @@ import { User } from './models/user';
   providers: [UserService]
 })
 
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit{ 
   public title = 'MUSYFY!';
   public user: User;
   public user_register: User;
@@ -110,7 +110,7 @@ export class AppComponent implements OnInit{
   			if(!user._id){
   				this.alertRegister = 'Error al registrase';
   			}else{
-  				this.alertRegister = 'El registro se ha realizado correctamente, identificate con' + this.user_register.email;
+  				this.alertRegister = 'El registro se ha realizado correctamente, identificate con ' + this.user_register.email;
   				this.user_register = new User('','','','','','ROLE_USER','');
   			}
   		},
