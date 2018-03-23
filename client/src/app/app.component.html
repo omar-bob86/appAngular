@@ -1,13 +1,16 @@
 <div *ngIf='identity' class="navigation col-lg-1"> 
-	<h1>
-	  {{title}}
+	<h1 class="head-title">
+		<a [routerLink]="['/']">
+			<span class="glyphicon glyphicon-music" aria-hidden="true"></span>
+	  		{{title}}
+	  	</a>
 	</h1>
 	<nav id="navigation">
 		<a href="">
 			<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 			Buscar
 		</a>
-		<a href="">
+		<a [routerLink]="['/artists', 1]" [routerLinkActive]="['actived']">
 			<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
 			Artistas
 		</a>
@@ -18,22 +21,23 @@
 	</nav>	
 	<nav id="user_logged">
 		<div class="user-image">
-			<img id="image-logged" src="{{url + 'get-image-user/' + identity.image}}" style="width: 50px;"/>
+			<img id="image-logged" src="{{url + 'get-image-user/' + identity.image}}"/>
 		</div>
 		<span id="identity_name">
-			{{identity.name}} {{identity.surname}}
+			{{identity.name}}
 		</span>
-		<span class="btn btn-warning" (click)="logout()">
-			Cerrar sesión
-		</span>
-		<a [routerLink]="['/mis-datos']">
+		<a [routerLink]="['/mis-datos']" [routerLinkActive]="['actived']">
 			<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 			Mis datos
+		</a>
+		<a (click)="logout()" class="btn-logout">
+			<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+			Salir
 		</a>
 	</nav>
 </div>
 
-<div *ngIf='identity' class="content-wrapper">
+<div [class.hidden]="!identity" class="col-lg-11"> 
 	<router-outlet></router-outlet>
 </div>
 
