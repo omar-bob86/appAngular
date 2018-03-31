@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router'; 
 
 import { GLOBAL } from '../services/global';
 import { UserService } from '../services/user.service';
@@ -17,7 +17,7 @@ export class ArtistListComponent implements OnInit{
 	public identity;
 	public token;
 	public url: string;
-
+ 
 	constructor(
 		private _route: ActivatedRoute,
 		private _router: Router,
