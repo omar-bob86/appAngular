@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router'; 
-
+ 
 import { GLOBAL } from '../services/global';
 import { UserService } from '../services/user.service';
 import { Artist } from '../models/artist';
@@ -20,7 +20,7 @@ export class ArtistListComponent implements OnInit{
  
 	constructor(
 		private _route: ActivatedRoute,
-		private _router: Router,
+		private _router: Router, 
 		private _userService: UserService
 	){
 		this.titulo = 'Artistas';

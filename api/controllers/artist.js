@@ -2,7 +2,7 @@
 
 var path = require('path');
 var fs = require('fs');
-var mongoosePaginate = require('mongoose-pagination');
+var mongoosePaginate = require('mongoose-pagination'); 
 
 var Artist = require('../models/artist');
 var Album = require('../models/album');
@@ -24,7 +24,7 @@ function getArtist(req, res) {
 	});
 }
 
-function getArtist(req, res){
+function getArtists(req, res){
 	if(req.params.page){
 		var page = req.params.page;
 	}else{
@@ -168,7 +168,7 @@ function getImageFile(req, res){
 module.exports = {
 	getArtist,
 	saveArtist,
-	getArtist,
+	getArtists,
 	updateArtist,
 	deleteArtist,
 	updloadImage,
