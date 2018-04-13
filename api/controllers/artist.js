@@ -4,7 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var mongoosePaginate = require('mongoose-pagination'); 
 
-var Artist = require('../models/artist');
+var Artist = require('../models/artist'); 
 var Album = require('../models/album');
 var Song = require('../models/song');
 
@@ -31,7 +31,7 @@ function getArtists(req, res){
 		var page = 1;
 	}
 	var page = req.params.page;
-	var itemsPerPage = 3;
+	var itemsPerPage = 4;
 
 	Artist.find().sort('name').paginate(page, itemsPerPage, function(err, artists, total){
 		if(err){
@@ -111,7 +111,7 @@ function deleteArtist(req, res){
 									if(!songRemoved){
 										res.status(404).send({message: 'La canción no ha sido eliminada'});
 									}else{
-										res.status(200).send({artistRemoved});
+										res.status(200).send({artist: artistRemoved});
 									}
 								}
 							});

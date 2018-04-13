@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit{
 
 	constructor(
 		private _route: ActivatedRoute,
-		private _router: Router,
+		private _router: Router, 
 	){
 		this.titulo = 'Artistas';
 	}
