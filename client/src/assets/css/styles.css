@@ -84,7 +84,8 @@ html, body {
 		cursor: pointer;
 }
 
-.artist_image_for_edit img{
+.artist_image_for_edit img,
+.album_image_for_edit img{
 	width: 150px;
 }
 
@@ -105,7 +106,7 @@ html, body {
 	margin-top: 20px;
 }
 
-.artist-item .artist-image{
+.artist-item .artist-image,{
 	height: 245px;
 	width: 100%;
 	overflow: hidden;
